@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>Captcha Example</title>
+</head>
+
+<body>
+    <section class="text-center bg-black h-screen text-white">
+        <h1 class="pt-72 pb-3 text-3xl ">Captch Verification</h1>
+        <input type="text" class=" w-3/4 h-10 placeholder-black text-black text-center" id="captcha" placeholder="Enter captcha here"><br>
+        <button id="btn" class="bg-white text-black mt-4 p-5 w-1/3">Verify</button>
+        <button id="regenerate" class="bg-white text-black mt-4 p-5 w-1/3">Regenerate Captcha</button>
+        <div id="displayCaptcha" class="text-4xl mt-3"></div>
+        <div id="verification" class=" text-3xl text-green-500"></div>
+       
+    </section>
+
+    <script>
+        var character = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+
+        var btn = document.getElementById("btn");
+        var regenerate = document.getElementById("regenerate");
+        var verify = document.getElementById("verification");
+        var displayCaptcha = document.getElementById("displayCaptcha");
+
+        //generate captch
+        function generateCaptcha(length) {
+            var captcha = '';
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * character.length);
+                captcha += character[randomIndex];
+            }
+            return captcha;
+        }
+
+        // display first captch befor submit or regenearte
+        var captcha = generateCaptcha(5);
+        displayCaptcha.innerHTML = `<h3>${captcha}</h3>`;
+
+        //set captch for reengenarte after btn click
+        function setCaptcha() {
+            captcha = generateCaptcha(5);
+            displayCaptcha.innerHTML = `<h3>${captcha} - New Captcha</h3>`;
+        }
+
+
+        btn.addEventListener("click", function () {
+            var alpha = document.getElementById("captcha").value;
+
+            if (captcha === alpha) {
+                verify.innerHTML = `<h2 id="verification">Verified</h2>`;
+                console.log("correct");
+                setCaptcha(); // Regenerate captcha after verification
+            } else {
+                // verify.innerHTML = `<h2 id="verification">Wrong</h2>`;
+                console.log("Wrong");
+                alert("Hey, its wrong buddy")
+                setCaptcha(); // Regenerate captcha after verification
+            }
+        });
+
+        regenerate.addEventListener("click", function () {
+            setCaptcha();
+        });
+    </script>
+</body>
+
+</html>
